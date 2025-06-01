@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { Item } from '../models/Item';
-import { getFiles } from '../api/files.api';
+import { Item } from '@/models/Item';
+import { getFiles } from '@/api/files.api';
 
 interface FilesState {
   rootDir: Item | null;
@@ -14,6 +14,7 @@ interface FilesState {
   navigateToFolder: (folder: Item) => void;
   findItemById: (id: number) => Item | undefined;
   toggleFavorite: (id: number) => void;
+  navigateUp: () => void;
 }
 
 export const useAppStore = create<FilesState>((set, get) => ({
@@ -82,4 +83,14 @@ export const useAppStore = create<FilesState>((set, get) => ({
       return { rootDir: state.rootDir };
     });
   },
+
+  navigateUp: () => {
+    const { currentFolder } = get();
+    if (!currentFolder || currentFolder.parentId === null) return;
+    
+    const parentFolder = get().findItemById(currentFolder.parentId);
+    if (parentFolder) {
+      set({ currentFolder: parentFolder });
+    }
+  }
 }));

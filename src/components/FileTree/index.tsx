@@ -2,9 +2,10 @@
 
 import styles from './styles.module.css';
 import React, { useEffect } from 'react';
-import Button from '../Button';
-import FileItem from '../FileItem';
+import Button from '@/components/Button';
+import FileItem from '@/components/FileItem';
 import { useAppStore } from '@/store/useAppStore';
+
 
 const FileTree: React.FC = () => {
   const store = useAppStore();
@@ -16,6 +17,25 @@ const FileTree: React.FC = () => {
   console.log('store', store);
 
   const currentItems = store.currentFolder?.children;
+  const showBackButton = Boolean(store.currentFolder?.parentId);
+
+  const handleBackClick = () => {
+    store.navigateUp();
+  };
+
+  const renderUpButton = () => {
+    if (!showBackButton) {
+      return null;
+    }
+    
+    return (
+        <Button 
+          title="..."
+          bgColor="default"
+          onClick={handleBackClick}
+        />
+      );
+  }
 
   return (
     <>
@@ -28,6 +48,7 @@ const FileTree: React.FC = () => {
       </header>
       
       <div>
+      {renderUpButton()}
       {store.isLoading ? (
           <div className={styles.loading}>Загрузка...</div>
         ) : store.error ? (
