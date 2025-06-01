@@ -20,6 +20,11 @@ body {
   margin: 0;
 }
 
+ul,
+ol {
+  list-style: none;
+}
+
 button {
   border: none;
   background: none;
