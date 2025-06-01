@@ -1,17 +1,25 @@
 "use client";
 
 import styles from './styles.module.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '../Button';
-import { filesMocks } from '@/app/mocks/filesMocks';
 import FileItem from '../FileItem';
+import { useAppStore } from '@/store/useAppStore';
 
 interface FileTreeProps {
   title?: string;
 }
 
 const FileTree: React.FC<FileTreeProps> = ({title}) => {
-  const files = filesMocks;
+  const store = useAppStore();
+
+  useEffect(() => {
+    store.fetchItems();
+  }, []);
+
+  console.log('store', store);
+
+  const currentItems = store.currentFolder?.children;
 
   return (
     <>
@@ -24,9 +32,9 @@ const FileTree: React.FC<FileTreeProps> = ({title}) => {
       </header>
       
       <div>
-        {files?.length > 0 ? (
+        {currentItems && currentItems.length > 0 ? (
           <ul>
-            {files.map((item) => (
+            {currentItems.map((item) => (
               <li className={styles.listItem} key={item.id}>
                 <FileItem item={item} />
               </li>

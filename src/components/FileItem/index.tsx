@@ -4,26 +4,36 @@ import styles from './styles.module.css';
 import React from 'react';
 import Button from '../Button';
 import cn from 'classnames';
-import { FileItemRaw } from '@/types';
+import { Item } from '@/models/Item';
+import { useAppStore } from '@/store/useAppStore';
 
 interface FileItemProps {
-  item: FileItemRaw
+  item: Item
 }
 
 const FileItem: React.FC<FileItemProps> = ({item}) => {
+  const store = useAppStore();
   const [isFavorite, setIsFavorite] = React.useState(item.isFavorite);
 
-  const toggleFavorite = () => {
+  const toggleFavorite = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     setIsFavorite(!isFavorite);
   }
 
+  const navigateToFolder = (e?: React.MouseEvent) => {
+    e?.preventDefault();
+    if (item.type === 'dir') {
+      store.navigateToFolder(item);
+    }
+  }
+
   return (
-    <div className={styles.item}>
+    <a href="#" onClick={(e) => navigateToFolder(e)} className={styles.item}>
       <p>{item.name}</p>
-      <Button className={cn(styles.favorite, isFavorite && styles.favoriteActive)} onClick={toggleFavorite}>
+      <Button className={cn(styles.favorite, isFavorite && styles.favoriteActive)} onClick={(e) => toggleFavorite(e)}>
         <img src="/icons/star.svg" alt="" width={24} height={24}/>
       </Button>
-    </div>
+    </a>
   )
 }
 

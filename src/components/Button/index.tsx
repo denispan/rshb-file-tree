@@ -4,7 +4,7 @@ import cn from 'classnames';
 
 export interface ButtonProps {
   title?: string;
-  onClick: () => void;
+  onClick: (e?: React.MouseEvent) => void;
   bgColor?: 'yellow' | 'lightGreen' | 'default';
   children?: React.ReactNode;
   className?: string;
