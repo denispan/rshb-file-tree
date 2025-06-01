@@ -6,11 +6,7 @@ import Button from '../Button';
 import FileItem from '../FileItem';
 import { useAppStore } from '@/store/useAppStore';
 
-interface FileTreeProps {
-  title?: string;
-}
-
-const FileTree: React.FC<FileTreeProps> = ({title}) => {
+const FileTree: React.FC = () => {
   const store = useAppStore();
 
   useEffect(() => {
@@ -24,7 +20,7 @@ const FileTree: React.FC<FileTreeProps> = ({title}) => {
   return (
     <>
       <header className={styles.header}>
-        <h3 className={styles.title}>{title}</h3>
+        <h3 className={styles.title}>{store.currentFolder?.name}</h3>
         <div className={styles.buttons}>
           <Button title='Создать папку' bgColor='yellow' onClick={() => {}} />
           <Button title='Загрузить файл' bgColor='lightGreen' onClick={() => {}} />
@@ -32,7 +28,12 @@ const FileTree: React.FC<FileTreeProps> = ({title}) => {
       </header>
       
       <div>
-        {currentItems && currentItems.length > 0 ? (
+      {store.isLoading ? (
+          <div className={styles.loading}>Загрузка...</div>
+        ) : store.error ? (
+          <div className={styles.error}>{store.error}</div>
+        ) : (
+        currentItems && currentItems.length > 0 ? (
           <ul>
             {currentItems.map((item) => (
               <li className={styles.listItem} key={item.id}>
@@ -40,7 +41,8 @@ const FileTree: React.FC<FileTreeProps> = ({title}) => {
               </li>
             ))}
           </ul>
-        ) : <p>Папка пуста</p>}
+        ) : <p>Папка пуста</p>
+        )}
       </div>
     </>
   )

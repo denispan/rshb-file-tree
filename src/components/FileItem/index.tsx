@@ -13,11 +13,10 @@ interface FileItemProps {
 
 const FileItem: React.FC<FileItemProps> = ({item}) => {
   const store = useAppStore();
-  const [isFavorite, setIsFavorite] = React.useState(item.isFavorite);
 
   const toggleFavorite = (e?: React.MouseEvent) => {
     e?.stopPropagation();
-    setIsFavorite(!isFavorite);
+    store.toggleFavorite(item.id);
   }
 
   const navigateToFolder = (e?: React.MouseEvent) => {
@@ -30,7 +29,7 @@ const FileItem: React.FC<FileItemProps> = ({item}) => {
   return (
     <a href="#" onClick={(e) => navigateToFolder(e)} className={styles.item}>
       <p>{item.name}</p>
-      <Button className={cn(styles.favorite, isFavorite && styles.favoriteActive)} onClick={(e) => toggleFavorite(e)}>
+      <Button className={cn(styles.favorite, item.isFavorite && styles.favoriteActive)} onClick={(e) => toggleFavorite(e)}>
         <img src="/icons/star.svg" alt="" width={24} height={24}/>
       </Button>
     </a>
