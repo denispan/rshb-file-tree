@@ -1,4 +1,6 @@
-export const filesMocks = [
+import { FileItemRaw } from "@/types";
+
+export const filesMocks: FileItemRaw[] = [
     {
       id: 1,
       type: "dir",

@@ -4,15 +4,10 @@ import styles from './styles.module.css';
 import React from 'react';
 import Button from '../Button';
 import cn from 'classnames';
+import { FileItemRaw } from '@/types';
 
 interface FileItemProps {
-  item: {
-    id: number;
-    type: 'dir' | 'file';
-    parentId: number | null;
-    name: string;
-    isFavorite: boolean;
-  }
+  item: FileItemRaw
 }
 
 const FileItem: React.FC<FileItemProps> = ({item}) => {
