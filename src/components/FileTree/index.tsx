@@ -3,12 +3,16 @@
 import styles from './styles.module.css';
 import React from 'react';
 import Button from '../Button';
+import { filesMocks } from '@/app/mocks/filesMocks';
+import FileItem from '../FileItem';
 
 interface FileTreeProps {
   title?: string;
 }
 
 const FileTree: React.FC<FileTreeProps> = ({title}) => {
+  const files = filesMocks;
+
   return (
     <>
       <header className={styles.header}>
@@ -19,8 +23,16 @@ const FileTree: React.FC<FileTreeProps> = ({title}) => {
         </div>
       </header>
       
-      <div className={styles.content}>
-        <p>Папка пуста</p>
+      <div>
+        {files?.length > 0 ? (
+          <ul>
+            {files.map((item) => (
+              <li className={styles.listItem} key={item.id}>
+                <FileItem item={item} />
+              </li>
+            ))}
+          </ul>
+        ) : <p>Папка пуста</p>}
       </div>
     </>
   )

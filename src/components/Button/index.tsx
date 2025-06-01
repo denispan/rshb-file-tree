@@ -5,13 +5,17 @@ import cn from 'classnames';
 export interface ButtonProps {
   title?: string;
   onClick: () => void;
-  bgColor?: 'yellow' | 'lightGreen';
+  bgColor?: 'yellow' | 'lightGreen' | 'default';
+  children?: React.ReactNode;
+  className?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
   title,
   onClick,
-  bgColor = 'lightGreen',
+  children,
+  bgColor = 'default',
+  className,
 }) => {
 
   return (
@@ -19,10 +23,12 @@ const Button: React.FC<ButtonProps> = ({
       className={cn(
         styles.button,
         styles[bgColor],
+        className,
       )}
       onClick={onClick}
     >
       {title}
+      {children}
     </button>
   );
 };
