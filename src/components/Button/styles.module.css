@@ -14,7 +14,11 @@
 }
 
 .lightGreen {
-  background-color: var(--color-lime-green);
+  background-color: var(--color-light-green);
+}
+
+.deepGreen {
+  background-color: var(--color-deep-green);
 }
 
 .default {

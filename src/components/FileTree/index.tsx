@@ -17,17 +17,15 @@ const FileTree: React.FC = () => {
     store.fetchItems();
   }, []);
 
-  console.log('store', store);
-
   const currentItems = store.currentFolder?.children;
-  const showBackButton = Boolean(store.currentFolder?.parentId);
+  const showUpButton = Boolean(store.currentFolder?.parentId);
 
   const handleUpClick = () => {
     store.navigateUp();
   };
 
   const renderUpButton = () => {
-    if (!showBackButton) {
+    if (!showUpButton) {
       return null;
     }
     

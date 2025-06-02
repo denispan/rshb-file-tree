@@ -5,7 +5,7 @@ import cn from 'classnames';
 export interface ButtonProps {
   title?: string;
   onClick: (e?: React.MouseEvent) => void;
-  bgColor?: 'yellow' | 'lightGreen' | 'default';
+  bgColor?: 'yellow' | 'lightGreen' | 'deepGreen' | 'default';
   children?: React.ReactNode;
   className?: string;
 }
@@ -17,7 +17,6 @@ const Button: React.FC<ButtonProps> = ({
   bgColor = 'default',
   className,
 }) => {
-
   return (
     <button
       className={cn(
