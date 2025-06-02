@@ -2,10 +2,9 @@
 
 import styles from './styles.module.css';
 import React from 'react';
-import Button from '../Button';
-import cn from 'classnames';
 import { Item } from '@/models/Item';
 import { useAppStore } from '@/store/useAppStore';
+import Favorite from '../Favorite';
 
 interface FileItemProps {
   item: Item
@@ -13,11 +12,6 @@ interface FileItemProps {
 
 const FileItem: React.FC<FileItemProps> = ({item}) => {
   const store = useAppStore();
-
-  const toggleFavorite = (e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    store.toggleFavorite(item.id);
-  }
 
   const navigateToFolder = (e?: React.MouseEvent) => {
     e?.preventDefault();
@@ -38,9 +32,7 @@ const FileItem: React.FC<FileItemProps> = ({item}) => {
         )}
         <p className={styles.name}>{item.name}</p>
       </div>
-      <Button className={cn(styles.favorite, item.isFavorite && styles.favoriteActive)} onClick={(e) => toggleFavorite(e)}>
-        <img src="/icons/star.svg" alt="" width={16} height={16}/>
-      </Button>
+      <Favorite item={item} />
     </a>
   )
 }

@@ -80,24 +80,3 @@
   padding: 10px 0 10px 8px;
 }
 
-/* Стили для скелетонов */
-.loading {
-  width: 100%;
-}
-
-.skeletonItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  width: 100%;
-  border-bottom: 1px dotted var(--color-light-gray);
-}
-
-.skeletonLeft {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-}

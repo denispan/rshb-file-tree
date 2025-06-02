@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import ErrorBoundary from './ErrorBoundary';
+import ErrorBoundary from '../ErrorBoundary';
 import ErrorPage from '@/pages/ErrorPage';
 
 interface ClientErrorBoundaryProps {
