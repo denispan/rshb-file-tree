@@ -4,6 +4,11 @@
   align-items: center;
   padding: 10px 0 10px 8px;
   width: 100%;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-faint-gray);
+  }
 }
 
 .title {

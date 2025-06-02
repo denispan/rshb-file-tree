@@ -70,10 +70,6 @@
 
 .listItem {
   border-bottom: 1px dotted var(--color-light-gray);
-  transition: background-color 0.2s ease;
-  &:hover {
-    background-color: var(--color-light-gray);
-  }
 }
 
 .textEmpty {
