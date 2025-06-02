@@ -2,21 +2,31 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 10px 0 10px 8px;
+  width: 100%;
 }
 
 .title {
   display: flex;
   align-items: center;
   gap: 6px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .name {
   font-size: 14px;
+  max-width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .favorite {
   width: 24px;
   height: 24px;
+  margin-right: 16px;
 }
 
 .favoriteActive {

@@ -5,6 +5,9 @@ import React, { useEffect } from 'react';
 import Button from '@/components/Button';
 import FileItem from '@/components/FileItem';
 import { useAppStore } from '@/store/useAppStore';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import ErrorDisplay from '../ErrorDisplay';
 
 
 const FileTree: React.FC = () => {
@@ -19,7 +22,7 @@ const FileTree: React.FC = () => {
   const currentItems = store.currentFolder?.children;
   const showBackButton = Boolean(store.currentFolder?.parentId);
 
-  const handleBackClick = () => {
+  const handleUpClick = () => {
     store.navigateUp();
   };
 
@@ -29,16 +32,34 @@ const FileTree: React.FC = () => {
     }
     
     return (
+      <div className={styles.upButtonContainer}>
         <Button 
           title="..."
           bgColor="default"
-          onClick={handleBackClick}
+          onClick={handleUpClick}
         />
-      );
+      </div>
+    );
+  }
+  
+  const renderSkeletons = () => {
+    return (
+      <div className={styles.loading}>
+        {Array(3).fill(0).map((_, index) => (
+          <div className={styles.skeletonItem} key={index}>
+            <div className={styles.skeletonLeft}>
+              <Skeleton circle width={24} height={24} />
+              <Skeleton width={150} height={14} style={{ marginLeft: 6 }} />
+            </div>
+            <Skeleton circle width={24} height={24} style={{ marginRight: 16 }} />
+          </div>
+        ))}
+      </div>
+    );
   }
 
   return (
-    <>
+    <div className={styles.container}>
       <header className={styles.header}>
         <div className={styles.title}>
           <img src="/icons/files.svg" alt="current folder title" width={24} height={24} />
@@ -55,25 +76,26 @@ const FileTree: React.FC = () => {
         </div>
       </header>
       
-      <div>
       {renderUpButton()}
-      {store.isLoading ? (
-          <div className={styles.loading}>Загрузка...</div>
+      
+      <div className={styles.listContainer}>
+        {store.isLoading ? (
+          renderSkeletons()
         ) : store.error ? (
-          <div className={styles.error}>{store.error}</div>
+          <ErrorDisplay errorMessage={store.error} />
         ) : (
-        currentItems && currentItems.length > 0 ? (
-          <ul>
-            {currentItems.map((item) => (
-              <li className={styles.listItem} key={item.id}>
-                <FileItem item={item} />
-              </li>
-            ))}
-          </ul>
-        ) : <p>Папка пуста</p>
+          currentItems && currentItems.length > 0 ? (
+            <ul className={styles.list}>
+              {currentItems.map((item) => (
+                <li className={styles.listItem} key={item.id}>
+                  <FileItem item={item} />
+                </li>
+              ))}
+            </ul>
+          ) : <p className={styles.textEmpty}>Папка пуста</p>
         )}
       </div>
-    </>
+    </div>
   )
 }
 

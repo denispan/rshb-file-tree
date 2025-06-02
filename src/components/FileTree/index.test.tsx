@@ -111,7 +111,9 @@ describe('FileTree', () => {
     });
     
     render(<FileTree />);
-    expect(screen.getByText('Загрузка...')).toBeInTheDocument();
+    // Проверяем наличие скелетонов вместо текста "Загрузка..."
+    const skeletonElements = document.querySelectorAll('.react-loading-skeleton');
+    expect(skeletonElements.length).toBeGreaterThan(0);
   });
   
   it('shows error state', () => {
