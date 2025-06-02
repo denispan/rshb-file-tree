@@ -3,6 +3,10 @@
   justify-content: center;
   align-items: center;
   color: var(--color-rich-black);
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 12px;
 }
 
 .yellow {

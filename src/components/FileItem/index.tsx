@@ -28,9 +28,18 @@ const FileItem: React.FC<FileItemProps> = ({item}) => {
 
   return (
     <a href="#" onClick={(e) => navigateToFolder(e)} className={styles.item}>
-      <p>{item.name}</p>
+      <div className={styles.title}>
+        {item.type === 'dir' ? (
+          <img src="/icons/folder.svg" width={24} height={24} alt="folder" />
+        ) : item.isImage() ? (
+          <img src="/icons/file-image.svg" width={24} height={24} alt="image" />
+        ) : (
+          <img src="/icons/file.svg" width={24} height={24} alt="file" />
+        )}
+        <p className={styles.name}>{item.name}</p>
+      </div>
       <Button className={cn(styles.favorite, item.isFavorite && styles.favoriteActive)} onClick={(e) => toggleFavorite(e)}>
-        <img src="/icons/star.svg" alt="" width={24} height={24}/>
+        <img src="/icons/star.svg" alt="" width={16} height={16}/>
       </Button>
     </a>
   )

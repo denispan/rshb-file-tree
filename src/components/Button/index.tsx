@@ -27,8 +27,8 @@ const Button: React.FC<ButtonProps> = ({
       )}
       onClick={onClick}
     >
-      {title}
       {children}
+      {title}
     </button>
   );
 };

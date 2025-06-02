@@ -40,10 +40,18 @@ const FileTree: React.FC = () => {
   return (
     <>
       <header className={styles.header}>
-        <h3 className={styles.title}>{store.currentFolder?.name}</h3>
+        <div className={styles.title}>
+          <img src="/icons/files.svg" alt="current folder title" width={24} height={24} />
+          <h3>{store.currentFolder?.name}</h3>
+        </div>
+      
         <div className={styles.buttons}>
-          <Button title='Создать папку' bgColor='yellow' onClick={() => {}} />
-          <Button title='Загрузить файл' bgColor='lightGreen' onClick={() => {}} />
+          <Button title='Создать папку' bgColor='yellow' onClick={() => {}}>
+            <img src="/icons/folder-plus.svg" alt="icon" width={12} height={12} />
+          </Button>
+          <Button title='Загрузить файл' bgColor='lightGreen' onClick={() => {}}>
+            <img src="/icons/upload.svg" alt="icon" width={12} height={12} />
+          </Button>
         </div>
       </header>
       
