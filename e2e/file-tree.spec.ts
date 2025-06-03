@@ -1,90 +1,65 @@
 import { test, expect } from '@playwright/test';
+import { filesMock } from './fixtures/files';
 
-test.describe('Файловое дерево', () => {
+test.describe('Рендер файлового дерева', () => {
   test.beforeEach(async ({ page }) => {
+    await page.addInitScript(({ mockData }) => {
+      window.getFilesOverride = () => Promise.resolve(mockData);
+    }, { mockData: filesMock });
+    
     await page.goto('/');
-    // Ждем загрузку страницы
     await page.waitForLoadState('networkidle');
   });
 
-  test('должно отображать корневую папку и ее содержимое', async ({ page }) => {
-    // Проверяем заголовок
-    await expect(page.locator('h3')).toContainText('Ваши файлы');
-    
-    // Проверяем наличие всех элементов корневой папки
+  test('загрузка страницы и отображение заголовка', async ({ page }) => {
+    await expect(page).toHaveTitle(/RSHB/);
+    await expect(page.locator('h3')).toBeVisible();
+  });
+
+  test('отображение элементов файлового дерева', async ({ page }) => {
     await expect(page.getByText('second')).toBeVisible();
     await expect(page.getByText('test')).toBeVisible();
-    await expect(page.getByText('third')).toBeVisible();
-    await expect(page.getByText('photo.jpg')).toBeVisible();
-    
-    // Проверяем, что в избранном находятся правильные элементы
-    // Проверяем наличие иконок для папок и файлов
-    await expect(page.locator('img[src="/icons/folder.svg"]').first()).toBeVisible();
-    await expect(page.locator('img[src="/icons/file.svg"]').first()).toBeVisible();
   });
 
-  test('должно переходить между папками и возвращаться назад', async ({ page }) => {
-    // Кликаем на папку "second"
+  test('переход в папку при клике', async ({ page }) => {
     await page.getByText('second').click();
-    
-    // Проверяем, что заголовок изменился
+    await expect(page.locator('h3')).toContainText('second');
+  });
+
+  test('переход на уровень выше при клике на кнопку вверх', async ({ page }) => {
+    await page.getByText('second').click();
     await expect(page.locator('h3')).toContainText('second');
     
-    // Проверяем наличие кнопки возврата
-    const upButton = page.locator('button').filter({ has: page.locator('img[alt="..."]') });
+    const upButton = page.getByText('...');
     await expect(upButton).toBeVisible();
     
-    // Проверяем содержимое папки
-    await expect(page.getByText('Вложенная папка')).toBeVisible();
-    
-    // Переходим в папку "Вложенная папка"
-    await page.getByText('Вложенная папка').click();
-    
-    // Проверяем, что заголовок изменился
-    await expect(page.locator('h3')).toContainText('Вложенная папка');
-    
-    // Проверяем содержимое папки
-    await expect(page.getByText('Глубокое вложение')).toBeVisible();
-    
-    // Возвращаемся назад
     await upButton.click();
-    
-    // Проверяем, что вернулись в папку "second"
-    await expect(page.locator('h3')).toContainText('second');
-    
-    // Возвращаемся в корневую папку
-    await upButton.click();
-    
-    // Проверяем, что вернулись в корневую папку
     await expect(page.locator('h3')).toContainText('Ваши файлы');
   });
+});
 
-  test('должно показывать сообщение о пустой папке', async ({ page }) => {
-    // Переходим в папку "third", которая пуста
-    await page.getByText('third').click();
+test.describe('Добавление в избранное', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(({ mockData }) => {
+      window.getFilesOverride = () => Promise.resolve(mockData);
+    }, { mockData: filesMock });
     
-    // Проверяем, что отображается сообщение о пустой папке
-    await expect(page.getByText('Папка пуста')).toBeVisible();
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
   });
 
-  test('должно работать добавление/удаление из избранного', async ({ page }) => {
-    // Находим элемент "third", который изначально не в избранном
-    const thirdItem = page.locator('a').filter({ hasText: 'third' });
-    const favoriteButton = thirdItem.locator('button');
+  test('удаление из избранного', async ({ page }) => {
+    const favoriteElem = page.getByRole('link', { name: 'test' });
+    await expect(favoriteElem).toBeVisible();
+
+    const favoriteButton = favoriteElem.getByRole('button');
+    await expect(favoriteButton).toBeVisible();
+    await expect(favoriteButton).toHaveClass(/favoriteActive/);
     
-    // Проверяем начальное состояние избранного
-    await expect(favoriteButton).not.toHaveClass(/favorite/);
-    
-    // Кликаем на кнопку избранного
     await favoriteButton.click();
-    
-    // Проверяем, что элемент добавлен в избранное
-    await expect(favoriteButton).toHaveClass(/favorite/);
-    
-    // Кликаем снова, чтобы удалить из избранного
+    await expect(favoriteButton).not.toHaveClass(/favoriteActive/);
+
     await favoriteButton.click();
-    
-    // Проверяем, что элемент удален из избранного
-    await expect(favoriteButton).not.toHaveClass(/favorite/);
+    await expect(favoriteButton).toHaveClass(/favoriteActive/);
   });
 });

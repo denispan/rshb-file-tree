@@ -16,6 +16,11 @@ const customJestConfig = {
   verbose: false,
   silent: false,
   noStackTrace: true,
+  testPathIgnorePatterns: [
+    "<rootDir>/node_modules/",
+    "<rootDir>/.next/",
+    "<rootDir>/e2e/"
+  ],
 };
 
 module.exports = createJestConfig(customJestConfig);

@@ -33,6 +33,7 @@
   }
 }
 
-.rebootButton {
+button.rebootButton {
   color: var(--color-white);
+
 }

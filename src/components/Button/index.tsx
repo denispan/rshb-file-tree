@@ -24,9 +24,9 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       className={cn(
+        className,
         styles.button,
         styles[bgColor],
-        className,
       )}
       onClick={onClick}
     >
