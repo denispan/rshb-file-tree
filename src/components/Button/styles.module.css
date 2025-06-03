@@ -1,0 +1,26 @@
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-rich-black);
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.yellow {
+  background-color: var(--color-golden-yellow);
+}
+
+.lightGreen {
+  background-color: var(--color-light-green);
+}
+
+.deepGreen {
+  background-color: var(--color-deep-green);
+}
+
+.default {
+  background-color: transparent;
+}

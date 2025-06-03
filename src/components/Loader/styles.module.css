@@ -1,0 +1,21 @@
+.loader {
+  width: 100%;
+}
+
+.loaderItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  width: 100%;
+  border-bottom: 1px dotted var(--color-light-gray);
+}
+
+.loaderItemLeftBlock {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  overflow: hidden;
+  margin-left: 8px;
+  gap: 6px;
+}
