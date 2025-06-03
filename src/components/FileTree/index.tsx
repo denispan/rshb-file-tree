@@ -7,6 +7,7 @@ import ErrorDisplay from '../ErrorDisplay';
 import Loader from '../Loader';
 import Icon from '../Icon';
 import { ButtonProps } from '../Button';
+import { isItem } from '@/models/Item';
 
 export interface HeaderButton extends ButtonProps {
   key: string;
@@ -74,11 +75,16 @@ const FileTree: React.FC<FileTreeProps> = ({ buttons }) => {
 
     return (
       <ul className={styles.list}>
-        {currentItems.map((item) => (
-          <li className={styles.listItem} key={item.id}>
-            <FileItem item={item} />
-          </li>
-        ))}
+        {currentItems
+          .map((item) => {
+            if (!isItem(item)) return null;
+
+            return (
+              <li key={item.id}>
+                <FileItem item={item} />
+              </li>
+            )
+          })}
       </ul>
     );
   }

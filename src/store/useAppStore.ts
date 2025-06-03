@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Item } from '@/models/Item';
+import { Item, isItem } from '@/models/Item';
 import { getFiles, toggleItemFavorite } from '@/api/files.api';
 
 interface FilesState {
@@ -68,14 +68,14 @@ export const useAppStore = create<FilesState>((set, get) => ({
   },
 
   navigateToFolder: (folder: Item) => {
-    if (folder.type !== 'dir') return;
+    if (!isItem(folder) || folder.type !== 'dir') return;
     set({ currentFolder: folder });
   },
 
   toggleFavorite: async (id: number) => {
     const item = get().findItemById(id);
     
-    if (!item) return;
+    if (!item || !isItem(item)) return;
 
     const newFavoriteState = !item.isFavorite;
     set(state => {
@@ -102,10 +102,10 @@ export const useAppStore = create<FilesState>((set, get) => ({
 
   navigateUp: () => {
     const { currentFolder } = get();
-    if (!currentFolder || currentFolder.parentId === null) return;
+    if (!currentFolder || !isItem(currentFolder) || currentFolder.parentId === null) return;
     
     const parentFolder = get().findItemById(currentFolder.parentId);
-    if (parentFolder) {
+    if (parentFolder && isItem(parentFolder)) {
       set({ currentFolder: parentFolder });
     }
   }
