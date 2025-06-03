@@ -41,7 +41,9 @@ const FileItem: React.FC<FileItemProps> = ({item}) => {
       className={styles.item}
     >
       <div className={styles.title}>
-        {renderIcon()}
+        <div>
+          {renderIcon()}
+        </div>
         <p className={styles.name}>
           {item.name}
         </p>

@@ -27,15 +27,18 @@
   align-items: center;
   gap: 4px;
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .title h3 {
   font-size: 18px;
   font-weight: 600;
-  max-width: 80%;
+  width: 90%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin: 0;
 }
 
 .buttons {

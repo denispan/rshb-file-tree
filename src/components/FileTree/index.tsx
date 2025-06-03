@@ -80,7 +80,7 @@ const FileTree: React.FC<FileTreeProps> = ({ buttons }) => {
             if (!isItem(item)) return null;
 
             return (
-              <li key={item.id}>
+              <li key={item.id} className={styles.listItem}>
                 <FileItem item={item} />
               </li>
             )
@@ -93,7 +93,9 @@ const FileTree: React.FC<FileTreeProps> = ({ buttons }) => {
     <div className={styles.container}>
       <header className={styles.header}>
         <div className={styles.title}>
-        <Icon name="files" size="large" />
+          <div>
+            <Icon name="files" size="large" />
+          </div>
           <h3>{store.currentFolder?.name}</h3>
         </div>
         {renderHeaderButtons()}

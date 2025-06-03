@@ -1,71 +1,61 @@
 import { ItemResponse } from "@/types/common";
 
+interface ToggleFavoriteResponse {
+  success: boolean;
+  isFavorite: boolean;
+}
+
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export const toggleItemFavorite = async (id: number, isFavorite: boolean): Promise<{ success: boolean }> => {
+export const getFiles = async ():Promise<ItemResponse> => {
+  // Для моков e2e тестов
+  if (typeof window !== 'undefined' && 'getFilesOverride' in window && window.getFilesOverride) {
+    return window.getFilesOverride();
+  }
+    
+  await sleep(1000);
+  
+  return [
+    {
+      id: 1,
+      type: "dir",
+      parentId: null,
+      name: "Ваши файлы",
+      isFavorite: false,
+    },
+    { id: 2, type: "dir", parentId: 1, name: "second", isFavorite: false },
+    { id: 3, type: "dir", parentId: 1, name: "test", isFavorite: true },
+    { id: 4, type: "dir", parentId: 1, name: "third", isFavorite: false },
+    { id: 5, type: "file", parentId: 1, name: "photo.jpg", isFavorite: true },
+    {
+      id: 6,
+      type: "dir",
+      parentId: 2,
+      name: "Вложенная папка",
+      isFavorite: false,
+    },
+    {
+      id: 7,
+      type: "dir",
+      parentId: 6,
+      name: "Глубокое вложение",
+      isFavorite: false,
+    },
+  ];
+};
+
+export const toggleItemFavorite = async (id: number, isFavorite: boolean): Promise<ToggleFavoriteResponse> => {
+  // Для моков e2e тестов
+  if (typeof window !== 'undefined' && 'toggleItemFavoriteOverride' in window && window.toggleItemFavoriteOverride) {
+    return window.toggleItemFavoriteOverride(id, isFavorite);
+  }
+  
   await sleep(500);
 
   const success = Math.random() > 0.05;
   if (!success) {
-    throw new Error(`Ошибка при обновлении статуса избранного для элемента ${id}`);
+    throw new Error(`Ошибка при обновлении статуса избранного для элемента id=${id}`);
   }
   
-  return { success: true };
-};
-
-export const getFiles = async ():Promise<ItemResponse> => {
-    await sleep(1000);
-    
-    // Базовые элементы
-    const baseItems = [
-      {
-        id: 1,
-        type: "dir" as const,
-        parentId: null,
-        name: "Ваши файлы",
-        isFavorite: false,
-      },
-      { id: 2, type: "dir" as const, parentId: 1, name: "second", isFavorite: false },
-      { id: 3, type: "dir" as const, parentId: 1, name: "test", isFavorite: true },
-      { id: 4, type: "dir" as const, parentId: 1, name: "third", isFavorite: false },
-      { id: 5, type: "file" as const, parentId: 1, name: "photophotophotophotophotophotophotophotophotophotophotophotophotophotophotophotophoto.jpg", isFavorite: true },
-      {
-        id: 6,
-        type: "dir" as const,
-        parentId: 2,
-        name: "Вложенная папка",
-        isFavorite: false,
-      },
-      {
-        id: 7,
-        type: "dir" as const,
-        parentId: 6,
-        name: "Глубокое вложение",
-        isFavorite: false,
-      },
-    ];
-    
-    // Добавляем много папок на одном уровне для проверки переполнения
-    const manyFolders = [];
-    for (let i = 0; i < 50; i++) {
-      manyFolders.push({
-        id: 100 + i,
-        type: "dir" as const,
-        parentId: 3, // Все папки будут в папке "test"
-        name: `Папка ${i + 1}`,
-        isFavorite: i % 5 === 0, // Каждая пятая папка в избранном
-      });
-    }
-    
-    // Добавляем несколько файлов разных типов
-    const files = [
-      { id: 200, type: "file" as const, parentId: 3, name: "document.pdf", isFavorite: false },
-      { id: 201, type: "file" as const, parentId: 3, name: "image.jpg", isFavorite: true },
-      { id: 202, type: "file" as const, parentId: 3, name: "presentation.pptx", isFavorite: false },
-      { id: 203, type: "file" as const, parentId: 3, name: "spreadsheet.xlsx", isFavorite: false },
-      { id: 204, type: "file" as const, parentId: 3, name: "archive.zip", isFavorite: false },
-      { id: 205, type: "file" as const, parentId: 3, name: "photo2.gif", isFavorite: true },
-    ];
-    
-    return [...baseItems, ...manyFolders, ...files];
+  return { success: true, isFavorite };
 };

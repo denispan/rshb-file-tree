@@ -1,8 +1,9 @@
-import { ItemResponse } from '../fixtures/mocks/normalData';
+import { ItemRaw } from '@/types/common';
 
 declare global {
   interface Window {
-    getFilesOverride?: () => Promise<ItemResponse[] | { error: boolean; message: string }>;
+    getFilesOverride?: () => Promise<ItemRaw[]>;
+    toggleItemFavoriteOverride?: (id: number, isFavorite: boolean) => Promise<{ success: boolean; isFavorite: boolean }>;
   }
 }
 

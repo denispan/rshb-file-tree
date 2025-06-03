@@ -12,7 +12,7 @@ const Loader: React.FC = () => {
             <Skeleton circle width={24} height={24} />
             <Skeleton width={150} height={14} />
           </div>
-          <Skeleton circle width={24} height={24} style={{ marginRight: 16 }} />
+          <Skeleton circle width={16} height={16} style={{ marginRight: 32 }} />
         </div>
       ))}
     </div>
