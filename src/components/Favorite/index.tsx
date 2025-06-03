@@ -21,9 +21,9 @@ const Favorite: React.FC<FavoriteProps> = ({item}) => {
     <Button 
       className={cn(styles.favorite, item.isFavorite && styles.favoriteActive)} 
       onClick={(e) => toggleFavorite(e)}
-    >
-      <img src="/icons/star.svg" alt="" width={16} height={16}/>
-    </Button>
+      icon="star"
+      iconSize="medium"
+    />
   )
 }
 

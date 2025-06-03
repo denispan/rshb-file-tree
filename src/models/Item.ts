@@ -1,5 +1,5 @@
 import { FILE_EXTENSIONS, IMAGE_EXTENSIONS, ITEM_TYPES } from "@/constants";
-import { ItemRaw } from "@/types";
+import { ItemRaw } from "@/types/common";
 
 
 

@@ -1,4 +1,4 @@
-import { ITEM_TYPES } from "./constants";
+import { ITEM_TYPES } from "@/constants";
 
 export interface ItemRaw {
   id: number;

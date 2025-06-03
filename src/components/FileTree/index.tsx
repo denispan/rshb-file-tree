@@ -7,9 +7,18 @@ import FileItem from '@/components/FileItem';
 import { useAppStore } from '@/store/useAppStore';
 import ErrorDisplay from '../ErrorDisplay';
 import Loader from '../Loader';
+import Icon from '../Icon';
+import { ButtonProps } from '../Button';
 
+export interface HeaderButton extends ButtonProps {
+  key: string;
+}
 
-const FileTree: React.FC = () => {
+interface FileTreeProps {
+  buttons?: HeaderButton[];
+}
+
+const FileTree: React.FC<FileTreeProps> = ({ buttons }) => {
   const store = useAppStore();
 
   useEffect(() => {
@@ -22,6 +31,27 @@ const FileTree: React.FC = () => {
   const handleUpClick = () => {
     store.navigateUp();
   };
+
+  const renderHeaderButtons = () => {
+    if (!buttons || buttons.length === 0) {
+      return null;
+    }
+
+    return (
+      <div className={styles.buttons}>
+        {buttons.map((button) => (
+          <Button 
+            key={button.key}
+            title={button.title}
+            bgColor={button.bgColor}
+            onClick={button.onClick}
+            icon={button.icon}
+            iconSize={button.iconSize}
+          />
+        ))}
+      </div>
+    );
+  }
 
   const renderUpButton = () => {
     if (!showUpButton) {
@@ -39,41 +69,39 @@ const FileTree: React.FC = () => {
     );
   }
 
+  const renderList = () => {
+    if (!currentItems || currentItems.length === 0) {
+      return <p className={styles.textEmpty}>Папка пуста</p>;
+    }
+
+    return (
+      <ul className={styles.list}>
+        {currentItems.map((item) => (
+          <li className={styles.listItem} key={item.id}>
+            <FileItem item={item} />
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
         <div className={styles.title}>
-          <img src="/icons/files.svg" alt="current folder title" width={24} height={24} />
+        <Icon name="files" size="large" />
           <h3>{store.currentFolder?.name}</h3>
         </div>
-      
-        <div className={styles.buttons}>
-          <Button title='Создать папку' bgColor='yellow' onClick={() => {}}>
-            <img src="/icons/folder-plus.svg" alt="icon" width={12} height={12} />
-          </Button>
-          <Button title='Загрузить файл' bgColor='lightGreen' onClick={() => {}}>
-            <img src="/icons/upload.svg" alt="icon" width={12} height={12} />
-          </Button>
-        </div>
+        {renderHeaderButtons()}
       </header>
-      
       {renderUpButton()}
-      
       <div className={styles.listContainer}>
         {store.isLoading ? (
           <Loader />
         ) : store.error ? (
           <ErrorDisplay errorMessage={store.error} />
         ) : (
-          currentItems && currentItems.length > 0 ? (
-            <ul className={styles.list}>
-              {currentItems.map((item) => (
-                <li className={styles.listItem} key={item.id}>
-                  <FileItem item={item} />
-                </li>
-              ))}
-            </ul>
-          ) : <p className={styles.textEmpty}>Папка пуста</p>
+          renderList()
         )}
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { ItemResponse } from "@/types";
+import { ItemResponse } from "@/types/common";
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 

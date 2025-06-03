@@ -5,6 +5,7 @@ import React from 'react';
 import { Item } from '@/models/Item';
 import { useAppStore } from '@/store/useAppStore';
 import Favorite from '../Favorite';
+import Icon from '../Icon';
 
 interface FileItemProps {
   item: Item
@@ -20,17 +21,30 @@ const FileItem: React.FC<FileItemProps> = ({item}) => {
     }
   }
 
+  const renderIcon = () => {
+    let iconName = '';
+    if (item.type === 'dir') {
+      iconName = 'folder';
+    } else if (item.isImage()) {
+      iconName = 'fileImage';
+    } else {
+      iconName = 'file';
+    }
+
+    return <Icon name={iconName} size="large" />
+  }
+
   return (
-    <a href="#" onClick={(e) => navigateToFolder(e)} className={styles.item}>
+    <a 
+      href="#" 
+      onClick={(e) => navigateToFolder(e)} 
+      className={styles.item}
+    >
       <div className={styles.title}>
-        {item.type === 'dir' ? (
-          <img src="/icons/folder.svg" width={24} height={24} alt="folder" />
-        ) : item.isImage() ? (
-          <img src="/icons/file-image.svg" width={24} height={24} alt="image" />
-        ) : (
-          <img src="/icons/file.svg" width={24} height={24} alt="file" />
-        )}
-        <p className={styles.name}>{item.name}</p>
+        {renderIcon()}
+        <p className={styles.name}>
+          {item.name}
+        </p>
       </div>
       <Favorite item={item} />
     </a>

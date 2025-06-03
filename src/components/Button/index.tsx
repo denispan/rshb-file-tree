@@ -1,21 +1,25 @@
 import styles from './styles.module.css';
 import React from 'react';
 import cn from 'classnames';
+import { ICON_SIZES, ICONS } from '../Icon/icons';
+import Icon from '../Icon';
 
 export interface ButtonProps {
   title?: string;
   onClick: (e?: React.MouseEvent) => void;
   bgColor?: 'yellow' | 'lightGreen' | 'deepGreen' | 'default';
-  children?: React.ReactNode;
   className?: string;
+  icon?: keyof typeof ICONS;
+  iconSize?: keyof typeof ICON_SIZES;
 }
 
 const Button: React.FC<ButtonProps> = ({
   title,
   onClick,
-  children,
   bgColor = 'default',
   className,
+  icon,
+  iconSize = 'small',
 }) => {
   return (
     <button
@@ -26,7 +30,7 @@ const Button: React.FC<ButtonProps> = ({
       )}
       onClick={onClick}
     >
-      {children}
+      {icon && <Icon name={icon} size={iconSize} />}
       {title}
     </button>
   );

@@ -4,6 +4,7 @@ import React from 'react';
 import FileTree from '@/components/FileTree';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import ErrorPage from '@/pages/ErrorPage';
+import { buttonsFileTreePage } from './buttons';
 
 const ClientPage: React.FC = () => {
   return (
@@ -12,7 +13,7 @@ const ClientPage: React.FC = () => {
         <ErrorPage resetError={() => window.location.reload()} />
       }
     >
-      <FileTree />
+      <FileTree buttons={buttonsFileTreePage}/>
     </ErrorBoundary>
   );
 };
