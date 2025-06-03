@@ -2,6 +2,17 @@ import { ItemResponse } from "@/types/common";
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
+export const toggleItemFavorite = async (id: number, isFavorite: boolean): Promise<{ success: boolean }> => {
+  await sleep(500);
+
+  const success = Math.random() > 0.05;
+  if (!success) {
+    throw new Error(`Ошибка при обновлении статуса избранного для элемента ${id}`);
+  }
+  
+  return { success: true };
+};
+
 export const getFiles = async ():Promise<ItemResponse> => {
     await sleep(1000);
     

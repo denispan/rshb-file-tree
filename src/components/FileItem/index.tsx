@@ -46,7 +46,7 @@ const FileItem: React.FC<FileItemProps> = ({item}) => {
           {item.name}
         </p>
       </div>
-      <Favorite item={item} />
+      <Favorite isFavorite={item.isFavorite} itemId={item.id} />
     </a>
   )
 }

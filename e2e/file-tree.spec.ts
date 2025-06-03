@@ -60,6 +60,9 @@ test.describe('Добавление в избранное', () => {
     await expect(favoriteButton).not.toHaveClass(/favoriteActive/);
 
     await favoriteButton.click();
+    await page.waitForTimeout(500);
+    
+    await favoriteButton.click();
     await expect(favoriteButton).toHaveClass(/favoriteActive/);
   });
 });

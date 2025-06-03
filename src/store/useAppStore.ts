@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Item } from '@/models/Item';
-import { getFiles } from '@/api/files.api';
+import { getFiles, toggleItemFavorite } from '@/api/files.api';
 
 interface FilesState {
   rootDir: Item | null;
@@ -72,16 +72,32 @@ export const useAppStore = create<FilesState>((set, get) => ({
     set({ currentFolder: folder });
   },
 
-  toggleFavorite: (id: number) => {
+  toggleFavorite: async (id: number) => {
+    const item = get().findItemById(id);
+    
+    if (!item) return;
+
+    const newFavoriteState = !item.isFavorite;
     set(state => {
-      const item = get().findItemById(id);
-      
       if (item) {
-        item.isFavorite = !item.isFavorite;
+        item.isFavorite = newFavoriteState;
       }
-      
       return { rootDir: state.rootDir };
     });
+    
+    try {
+      await toggleItemFavorite(id, newFavoriteState);
+    } catch (error) {
+      set(state => {
+        if (item) {
+          item.isFavorite = !newFavoriteState;
+        }
+        return { 
+          rootDir: state.rootDir,
+          error: error instanceof Error ? error.message : 'Ошибка при обновлении статуса избранного'
+        };
+      });
+    }
   },
 
   navigateUp: () => {
