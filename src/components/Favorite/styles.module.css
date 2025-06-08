@@ -1,0 +1,9 @@
+.favorite {
+  margin-right: 16px;
+  opacity: 0.2;
+  transition: opacity 0.2s ease;
+}
+
+.favoriteActive {
+  opacity: 1;
+}
